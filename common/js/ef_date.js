@@ -1,15 +1,23 @@
 jQuery(document).ready(function($) {
-	$('.date-time-pick')
-		.datetimepicker({
-			dateFormat: 'M dd yy',
-			firstDay: ef_week_first_day,
-			alwaysSetTime: false,
-			controlType: 'select',
-		});
+  var dateTimePicks = $(".date-time-pick");
 
-	$('.date-pick')
-		.datepicker({
-			dateFormat: 'M dd yy',
-			firstDay: ef_week_first_day
-		});
+  dateTimePicks.each(function() {
+    var $dTP = $(this);
+
+    $dTP.datetimepicker({
+      dateFormat: "M dd yy",
+      firstDay: ef_week_first_day,
+      alwaysSetTime: false,
+      controlType: "select",
+      altField: '#' + $dTP.attr("id") + "_hidden",
+      altFieldTimeOnly: false,
+      altFormat: "yy-mm-dd",
+      altTimeFormat: "HH:mm"
+    });
+  });
+
+  $(".date-pick").datepicker({
+    dateFormat: "M dd yy",
+    firstDay: ef_week_first_day
+  });
 });

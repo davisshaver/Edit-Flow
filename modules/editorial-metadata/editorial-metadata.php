@@ -392,7 +392,8 @@ class EF_Editorial_Metadata extends EF_Module {
 						echo "<label for='$postmeta_key'>{$term->name}</label>";
 						if ( $description_span )
 							echo "<label for='$postmeta_key'>$description_span</label>";
-						echo "<input id='$postmeta_key' name='$postmeta_key' type='text' class='date-time-pick' value='$current_metadata' />";
+						echo '<input id="' . esc_attr( $postmeta_key ) .'" name="' . esc_attr( $postmeta_key ) . '" type="tex" class="date-time-pick" value="' . esc_attr( $current_metadata ) . '" />';
+						echo '<input type="hidden" id="' . esc_attr( $postmeta_key ) . '_hidden' . '" name="' . esc_attr( $postmeta_key ) . '_hidden' . '" />';
 						break;
 					case "location":
 						echo "<label for='$postmeta_key'>{$term->name}</label>";
@@ -447,9 +448,9 @@ class EF_Editorial_Metadata extends EF_Module {
 	private function show_date_or_datetime( $current_date ) {
 
 		if( date( 'Hi', $current_date ) == '0000')
-			return date( 'M d Y', $current_date );
+			return date_i18n( 'M d Y', $current_date );
 		else
-			return date( 'M d Y H:i', $current_date );
+			return date_i18n( 'M d Y H:i', $current_date );
 	}
 
 	/**
@@ -495,7 +496,15 @@ class EF_Editorial_Metadata extends EF_Module {
 
 				// TODO: Move this to a function
 				if ( $type == 'date' ) {
-					$new_metadata = strtotime( $new_metadata );
+					$date_to_parse =  isset( $_POST[ $key . '_hidden' ] ) ? $_POST[ $key . '_hidden' ] : '';
+					$date = DateTime::createFromFormat('Y-m-d H:i', $date_to_parse );
+
+					if ( $date !== false ) { 
+						$new_metadata = $date->getTimestamp();
+					} else {
+						// Fallback, in case $_POST[ $key . '_hidden' ] was not previosuly set
+						$new_metadata = strtotime( $new_metadata );
+					}
 				}
 				if ( $type == 'number' ) {
 					$new_metadata = (int)$new_metadata;
