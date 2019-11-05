@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
       firstDay: ef_week_first_day,
       alwaysSetTime: false,
       controlType: "select",
-      altField: '#' + $dTP.attr("id") + "_hidden",
+      altField: '#' + $dTP.prop("id") + "_hidden",
       altFieldTimeOnly: false,
       altFormat: "yy-mm-dd",
       altTimeFormat: "HH:mm"
