@@ -495,18 +495,18 @@ class EF_Editorial_Metadata extends EF_Module {
 			} else {
 
 				// TODO: Move this to a function
-				if ( $type == 'date' ) {
+				if ( 'date' === $type ) {
 					$date_to_parse =  isset( $_POST[ $key . '_hidden' ] ) ? $_POST[ $key . '_hidden' ] : '';
 					$date = DateTime::createFromFormat('Y-m-d H:i', $date_to_parse );
 
-					if ( $date !== false ) { 
+					if ( false !== $date ) { 
 						$new_metadata = $date->getTimestamp();
 					} else {
 						// Fallback, in case $_POST[ $key . '_hidden' ] was not previosuly set
 						$new_metadata = strtotime( $new_metadata );
 					}
 				}
-				if ( $type == 'number' ) {
+				if ( 'number' === $type ) {
 					$new_metadata = (int)$new_metadata;
 				}
 				
